@@ -1,0 +1,52 @@
+#To practice these commands, open the cloud shell in your subscription, select PowerShell and copy and paste each command into the Azure Cloud Shell.
+
+#Create a new resource group name RG1 in the EastUS region
+
+new-azresourcegroup -resoucegroupname rg1 -location eastus
+
+#View a list of all resource groups in your subsciption.
+
+Get-AzResourceGroup | Format-Table
+
+#FT can be substituted for Format-Table as it is an alias.  The space on either side of the | symbol is optional.  PowerShell is not case-sensitive.
+
+Get-AzResourceGroup|ft
+
+#Creates a new VM name myVM in the RG1 resource group.  It sets the region of East US, names the virtual network or vnet to myvnet, creates a subnet named mysubnet, creates a Network Security group named myNSG, and a Public IP named mypublicip.  The ` symbol at the end of each line is for line continuation. When you press Enter you will prompted for a Username and password.  Press Enter or return after each one.  The password must be a minimum of 12 characters.
+
+New-AzVm `
+-ResourceGroupName "RG1" `
+-Name "myVM" `
+-Location "East US" `
+-VirtualNetworkName "myVnet" `
+-SubnetName "mySubnet" `
+-SecurityGroupName "myNSG" `
+-PublicIpAddressName "myPublicIp"
+
+#View your new virtual machine.
+
+Get-azvm -name myvm 
+
+#Verify that your virutal machine is running
+
+Get-AzVM -name myVM -status|ft
+
+#Stop or deallocate a running virtual machine and not be prompted if you are sure.  It will take a few minutes.
+
+Stop-AzVM -ResourceGroupName RG1 -Name myVM -force 
+
+#Verify that your virutal machine is not running
+
+Get-AzVM -name myVM -status|ft
+
+#Start a stopped virtual machine
+
+Start-AzVM -ResourceGroupName RG1 -Name myVM 
+
+#Verify that your virutal machine is running
+
+Get-AzVM -name myVM -status|ft
+
+#Once you are finished with your virtual machine and no longer want to use it delete the resource group, so that you will no longer be charged.  You will be prompted to confirm this action.  ALWAYS verify that you no longer need a resource group before you delete it.  
+
+remove-azresourcegroup -resourcegroupname rg1 
