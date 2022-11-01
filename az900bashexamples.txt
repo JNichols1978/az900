@@ -1,0 +1,56 @@
+#To practice these commands, open the cloud shell in your subscription, select bash and copy and paste each command into the Azure Cloud Shell. 
+Remember to press the Enter or Return key after each command is pasted.
+
+#Create a new resource group name RG2 in the EastUS region
+
+az group create --location eastus --resource-group rg2
+
+#View a list of all resource groups in your subsciption.
+
+az group list --output table
+
+#-o can be substituted for --output
+
+az group list -o table
+
+
+#Creates a new VM name myVM2 in the RG2 resource group.  It sets the region of East US, names the virtual network or vnet to myvnet, creates a subnet named mysubnet,
+creates an Ubuntu virtual machine and sets the admin name and password. 
+The \ is for line continuation - meaning you can split the command into several readable lines rather than have one long command.    
+
+az vm create \
+--name myVM2 \
+--resource-group rg2 \
+--image UbuntuLTS \
+--location EastUS \
+--admin-username azureuser \
+--admin-password Pa$$w0rd1234
+
+#View your new virtual machine.
+
+az vm list -o table 
+
+#Verify that your virutal machine is running
+
+az vm show -g rg2 -n myvm2 --show-details -o table
+
+#Deallocate a running virtual machine. It will take a few minutes.
+
+az vm deallocate -n myvm2 -g rg2
+
+#Verify that your virutal machine is not running
+
+az vm show -g rg2 -n myvm2 --show-details -o table
+
+#Start a deallocated virtual machine
+
+az vm start -n myvm2 -g rg2
+
+#Verify that your virutal machine is running
+
+az vm show -g rg2 -n myvm2 --show-details -o table
+
+#Once you are finished with your virtual machine and no longer want to use it, delete the resource group, so that you will no longer be charged. 
+You will be prompted to confirm this action.  ALWAYS verify that you no longer need a resource group before you delete it.  
+
+az group delete -g rg2
